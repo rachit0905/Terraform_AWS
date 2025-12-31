@@ -23,14 +23,19 @@ resource "aws_key_pair" "localmachinenamekeypair" {
 }
 
 
-# ##Creating Security Grp 
-# resource "aws_security_group" "allow_tls" {
-#   name        = "allow_tls_terraform"
-#   description = "Allow TLS inbound traffic and all outbound traffic"
+# data "aws_subnet" "default" {
+#   default_for_az = true
+#   availability_zone = "ap-south-1a"
+# }
 
-#   tags = {
-#     Name = "allow_tls"
-#   }
+# resource "aws_instance" "ec2" {
+#   ami           = "ami-0f5ee92e2d63afc18"
+#   instance_type = "t2.micro"
+#   subnet_id     = data.aws_subnet.default.id
+
+#   vpc_security_group_ids = [
+#     aws_security_group.ssh_sg.id
+#   ]
 # }
 
 resource "aws_security_group" "allow_ssh" {
@@ -44,6 +49,31 @@ resource "aws_security_group" "allow_ssh" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  ingress {
+    description = "HTTP"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "HTTPS"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
 }
 
 
