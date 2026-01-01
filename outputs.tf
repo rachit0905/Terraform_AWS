@@ -22,3 +22,8 @@ output "aws_s3_bucket_printing" {
 output "keypair" {
   value = "Key pair name is  ${aws_key_pair.localmachinenamekeypair.key_name}"
 }
+
+output "ec2ipprinting" {
+  value = "ip address for the ec2 ${aws_instance.name.public_ip}"
+
+}

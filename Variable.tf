@@ -4,7 +4,9 @@ variable "token" {
 variable "s3_bucketname" {
   type = string
 }
-
+variable "ports" {
+  type = list(number)
+}
 
 variable "username" {
   type = string
